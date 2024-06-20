@@ -17,6 +17,10 @@ jobs:
         run: npm install
       - name: Build the project
         run: npm run build
+      - name: Configure Git
+        run: |
+          git config user.name "Your Name"
+          git config user.email "you@example.com"
       - name: Deploy to GitHub Pages
         run: npm run deploy
         env:
