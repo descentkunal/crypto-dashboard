@@ -3,7 +3,7 @@ import { Outlet, RouterProvider } from 'react-router-dom';
 import { createBrowserRouter } from 'react-router-dom';
 import TablePage from './pages/TablePage';
 import CryptoDetail from './pages/DetailsPage';
-import Navbar from './components/Navbar'; // Adjust the path according to your directory structure
+import Navbar from './components/Navbar'; 
 import Error from './components/Error';
 
 
@@ -24,12 +24,11 @@ const router = createBrowserRouter([
     element: <AppLayout />,
     children: [
       {
-        path: "/",
+        path: "/crypto-dashboard",
         element: <TablePage />,
-        errorElement: <Error />,
       },
       {
-        path: "/details/:id",
+        path: "/crypto-dashboard/details/:id",
         element: <CryptoDetail />,
       },
 
