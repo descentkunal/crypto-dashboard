@@ -94,33 +94,36 @@ This project is a web application that displays near real-time cryptocurrency da
    npm start
 
 4. Open your browser and navigate to http://localhost:3000 to view the application.
-   crypto-dashboard/
-   ├── public/
-   │ ├── index.html
-   │ └── ...
-   ├── src/
-   │ ├── components/
-   │ │ ├── TableComponent.tsx
-   │ │ └── TableComponent.scss
-   │ ├── hooks/
-   │ │ └── useCryptoPrices.ts
-   │ ├── pages/
-   │ │ ├── TablePage.tsx
-   │ │ ├── DetailsPage.tsx
-   │ │ └── ...
-   │ ├── utils/
-   │ │ └── api.ts
-   │ ├── types/
-   │ │ └── index.ts
-   │ ├── **tests**/
-   │ │ ├── TableComponent.test.tsx
-   │ │ └── ...
-   │ ├── App.tsx
-   │ ├── index.tsx
-   │ └── ...
-   ├── package.json
-   ├── README.md
-   └── ...
+
+Folder structue
+
+crypto-dashboard/
+├── public/
+│   ├── index.html
+│   └── ...
+├── src/
+│   ├── components/
+│   │   ├── TableComponent.tsx
+│   │   └── TableComponent.scss
+│   ├── hooks/
+│   │   └── useCryptoPrices.ts
+│   ├── pages/
+│   │   ├── TablePage.tsx
+│   │   ├── DetailsPage.tsx
+│   │   └── ...
+│   ├── utils/
+│   │   └── api.ts
+│   ├── types/
+│   │   └── index.ts
+│   ├── tests/
+│   │   ├── TableComponent.test.tsx
+│   │   └── ...
+│   ├── App.tsx
+│   ├── index.tsx
+│   └── ...
+├── package.json
+├── README.md
+└── ...
 
 5. API Usage
 
@@ -163,7 +166,7 @@ Allowed sorting by symbol, name, price, and market cap with persistent sorting e
 Added a header with navigation controls for navigation like home and back.
 Added a select component for current active currency.
 Added a loading state when api is loading.
-Added a custom error page when wrong routing is received. 
+Added a custom error page when wrong routing is received.
 Used scss following BEM methodology
 The application is delpoyed and is live on https://descentkunal.github.io/crypto-dashboard/
 
@@ -172,7 +175,7 @@ Repository: https://github.com/descentkunal/crypto-dashboard
 Live Link : https://descentkunal.github.io/crypto-dashboard/
 
 GIT Branches
-master: The main brnach 
+master: The main brnach
 gh-pages: same as master deployed on github pages
 
 Conclusion
