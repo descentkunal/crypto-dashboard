@@ -12,17 +12,10 @@ const renderWithRouter = (ui: React.ReactElement, { route = "/" } = {}) => {
 const mockCryptos: CryptoCurrency[] = [
   {
     id: "bitcoin",
-    rank: "1",
     symbol: "BTC",
     name: "Bitcoin",
-    supply: "18674743.0000000000000000",
-    maxSupply: "21000000.0000000000000000",
     marketCapUsd: "1077138620791.3968474796743423",
-    volumeUsd24Hr: "22476552391.2820977558579998",
     priceUsd: "57676.4575070032310409",
-    changePercent24Hr: "0.6163188530343451",
-    vwap24Hr: "56385.2892484821165634",
-    explorer: "https://blockchain.info/",
   },
 ];
 

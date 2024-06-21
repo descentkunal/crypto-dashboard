@@ -14,13 +14,15 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const Navbar: React.FC = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useNavigate(); // Hook to navigate programmatically
+  const location = useLocation(); // Hook to get the current location
 
+  // Function to handle the Home button click
   const handleHomeClick = () => {
     navigate("/crypto-dashboard");
   };
 
+  // Function to handle the Back button click
   const handleBackClick = () => {
     navigate(-1);
   };
@@ -28,6 +30,7 @@ const Navbar: React.FC = () => {
   return (
     <AppBar position="static">
       <Toolbar>
+        {/* Back button */}
         <IconButton
           edge="start"
           color="inherit"
@@ -36,6 +39,8 @@ const Navbar: React.FC = () => {
         >
           <ArrowBackIcon />
         </IconButton>
+
+        {/* Home button */}
         <IconButton
           edge="start"
           color="inherit"
@@ -45,15 +50,19 @@ const Navbar: React.FC = () => {
         >
           <HomeIcon />
         </IconButton>
+
+        {/* Title */}
         <Typography variant="h6" component="div" sx={{ flexGrow: 1, ml: 2 }}>
           CryptoTracker
         </Typography>
+
+        {/* Currency selector */}
         <FormControl
           variant="outlined"
           sx={{
             minWidth: 100,
             mt: 2,
-            mb:2,
+            mb: 2,
             "& .MuiInputLabel-root": { color: "white" },
             "& .MuiOutlinedInput-root": {
               color: "white",

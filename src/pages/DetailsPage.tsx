@@ -36,8 +36,9 @@ const DetailsPage: React.FC = () => {
       currentPage={1}
       itemsPerPage={1}
       handlePageChange={() => {}}
-      showFavorites={false} // Set showFavorites to false
-      highlightOnHover={false} // Set highlightOnHover to false
+      showFavorites={false} // Do not show favorites toggle in details page
+      highlightOnHover={false} // Do not highlight name on hover in details page
+      showSerialNumber={false} // Do not show serial number in details page
     />
   );
 };

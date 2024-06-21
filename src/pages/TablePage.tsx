@@ -4,24 +4,30 @@ import { CryptoCurrency } from "../types";
 import useCryptoPrices from "../hooks/useCryptoPrices";
 import TableComponent from "../components/TableComponent";
 
-type SortKey = "symbol" | "name" | "priceUsd" | "marketCapUsd";
-type Order = "asc" | "desc";
+type SortKey = "symbol" | "name" | "priceUsd" | "marketCapUsd"; // Type for sortable keys
+type Order = "asc" | "desc"; // Type for order direction
 
 const TablePage: React.FC = () => {
+  // State to hold the list of cryptocurrencies
   const [cryptos, setCryptos] = useState<CryptoCurrency[]>([]);
+  // State to manage loading status
   const [loading, setLoading] = useState<boolean>(true);
+  // State to manage sort order and sort key with values from local storage if available
   const [order, setOrder] = useState<Order>(
     (localStorage.getItem("order") as Order) || "asc"
   );
   const [orderBy, setOrderBy] = useState<SortKey>(
     (localStorage.getItem("orderBy") as SortKey) || "name"
   );
+  // State to manage current page for pagination
   const [currentPage, setCurrentPage] = useState(1);
+  // State to manage favorites list with values from local storage if available
   const [favorites, setFavorites] = useState<string[]>(
     JSON.parse(localStorage.getItem("favorites") || "[]")
   );
-  const itemsPerPage = 10;
+  const itemsPerPage = 10; // Number of items to show per page
 
+  // Fetch cryptocurrency data on component mount
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -33,14 +39,16 @@ const TablePage: React.FC = () => {
     fetchData();
   }, []);
 
+  // Fetch updated prices every 10 seconds
   const prices = useCryptoPrices(
-    cryptos.map((crypto) => ({
-      id: crypto.id,
-      priceUsd: crypto.priceUsd,
-      marketCapUsd: crypto.marketCapUsd,
+    cryptos?.map((crypto) => ({
+      id: crypto?.id,
+      priceUsd: crypto?.priceUsd,
+      marketCapUsd: crypto?.marketCapUsd,
     }))
   );
 
+  // Handle sorting of the table
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
     property: SortKey
@@ -49,14 +57,15 @@ const TablePage: React.FC = () => {
     const newOrder = isAsc ? "desc" : "asc";
     setOrder(newOrder);
     setOrderBy(property);
-    localStorage.setItem("order", newOrder);
-    localStorage.setItem("orderBy", property);
+    localStorage?.setItem("order", newOrder);
+    localStorage?.setItem("orderBy", property);
   };
 
+  // Memoized sorted cryptocurrencies list
   const sortedCryptos = React.useMemo(() => {
     return cryptos
-      .map((crypto) => {
-        const priceInfo = prices.find((p) => p.id === crypto.id);
+      ?.map((crypto) => {
+        const priceInfo = prices?.find((p) => p?.id === crypto?.id);
         return {
           ...crypto,
           priceUsd: priceInfo?.priceUsd ?? crypto.priceUsd,
@@ -77,6 +86,7 @@ const TablePage: React.FC = () => {
       });
   }, [cryptos, prices, order, orderBy]);
 
+  // Handle page change for pagination
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
     newPage: number
@@ -84,13 +94,14 @@ const TablePage: React.FC = () => {
     setCurrentPage(newPage);
   };
 
+  // Toggle favorite status of a cryptocurrency
   const toggleFavorite = (id: string) => {
-    const updatedFavorites = favorites.includes(id)
-      ? favorites.filter((fav) => fav !== id)
+    const updatedFavorites = favorites?.includes(id)
+      ? favorites?.filter((fav) => fav !== id)
       : [...favorites, id];
     setFavorites(updatedFavorites);
     setTimeout(() => {
-      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+      localStorage?.setItem("favorites", JSON.stringify(updatedFavorites));
     }, 0);
   };
 

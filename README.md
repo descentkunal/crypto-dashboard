@@ -95,7 +95,7 @@ This project is a web application that displays near real-time cryptocurrency da
 
 4. Open your browser and navigate to http://localhost:3000 to view the application.
 
-Folder structue
+**Folder structure**
 
 crypto-dashboard/
 ├── public/
@@ -125,7 +125,7 @@ crypto-dashboard/
 ├── README.md
 └── ...
 
-5. API Usage
+5. **API Usage**
 
    Fetch Cryptocurrency Data
    URL: https://api.coincap.io/v2/assets
@@ -137,7 +137,7 @@ crypto-dashboard/
    Method: GET
    Response: JSON object of cryptocurrency details.
 
-6. Testing
+6. **Testing**
 
 Running Tests
 
@@ -146,29 +146,29 @@ npm test
 
 Test Cases
 
-TableComponent
-Renders the header text correctly.
-Displays the loading indicator when loading.
-Renders table rows with correct data.
-Does not show pagination when itemsPerPage is 1.
-Does not highlight the name on hover when highlightOnHover is false.
+-TableComponent
+-Renders the header text correctly.
+-Displays the loading indicator when loading.
+-Renders table rows with correct data.
+-Does not show pagination when itemsPerPage is 1.
+-Does not highlight the name on hover when highlightOnHover is false.
 
-Additional Information
+7. **Additional Information**
 
-Local Storage
+**Local Storage**
 Favorites are stored in the local storage to ensure persistence across page reloads.
 
-Styling
+**Styling**
 The project uses SCSS for styling with BEM methodology for better maintainability.
 
-Improvements and Bonus Features
-Allowed sorting by symbol, name, price, and market cap with persistent sorting even when data is refreshed.
-Added a header with navigation controls for navigation like home and back.
-Added a select component for current active currency.
-Added a loading state when api is loading.
-Added a custom error page when wrong routing is received.
-Used scss following BEM methodology
-The application is delpoyed and is live on https://descentkunal.github.io/crypto-dashboard/
+**Improvements and Bonus Features**
+-Allowed sorting by symbol, name, price, and market cap with persistent sorting even when data is refreshed.
+-Added a header with navigation controls for navigation like home and back.
+-Added a select component for current active currency.
+-Added a loading state when api is loading.
+-Added a custom error page when wrong routing is received.
+-Used scss following BEM methodology
+-The application is delpoyed and is live on https://descentkunal.github.io/crypto-dashboard/
 
 GITHUB
 Repository: https://github.com/descentkunal/crypto-dashboard
@@ -178,6 +178,6 @@ GIT Branches
 master: The main brnach
 gh-pages: same as master deployed on github pages
 
-Conclusion
+### Conclusion ###
 
 This cryptocurrency dashboard project is designed to provide real-time data with a user-friendly interface. Feel free to explore the codebase, make improvements, and reach out with any questions or suggestions.

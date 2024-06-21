@@ -41,8 +41,9 @@ interface TableComponentProps {
     newPage: number
   ) => void;
   toggleFavorite?: (id: string) => void;
-  showFavorites?: boolean; // Add this line
-  highlightOnHover?: boolean; // Add this line
+  showFavorites?: boolean;
+  highlightOnHover?: boolean;
+  showSerialNumber?: boolean; // New prop to control the visibility of the serial number column
 }
 
 const TableComponent: React.FC<TableComponentProps> = ({
@@ -58,14 +59,17 @@ const TableComponent: React.FC<TableComponentProps> = ({
   toggleFavorite = () => {},
   showFavorites = true,
   highlightOnHover = true, // Default to true
+  showSerialNumber = true, // Default to true
 }) => {
   const navigate = useNavigate();
 
+  // Paginate the cryptocurrencies to show only items for the current page
   const paginatedCryptos = cryptos.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
+  // Check if a cryptocurrency is in the favorites list
   const isFavorite = (id: string) => favorites.includes(id);
 
   return (
@@ -89,12 +93,14 @@ const TableComponent: React.FC<TableComponentProps> = ({
                       className="table-page__table-cell--bold"
                     />
                   )}
-                  <TableCell
-                    padding="none"
-                    className="table-page__table-cell--bold"
-                  >
-                    #
-                  </TableCell>
+                  {showSerialNumber && (
+                    <TableCell
+                      padding="none"
+                      className="table-page__table-cell--bold"
+                    >
+                      #
+                    </TableCell>
+                  )}
                   <TableCell className="table-page__table-cell--bold">
                     <TableSortLabel
                       active={orderBy === "symbol"}
@@ -183,9 +189,11 @@ const TableComponent: React.FC<TableComponentProps> = ({
                         </IconButton>
                       </TableCell>
                     )}
-                    <TableCell padding="none">
-                      {(currentPage - 1) * itemsPerPage + index + 1}
-                    </TableCell>
+                    {showSerialNumber && (
+                      <TableCell padding="none">
+                        {(currentPage - 1) * itemsPerPage + index + 1}
+                      </TableCell>
+                    )}
                     <TableCell>{crypto.symbol}</TableCell>
                     <TableCell
                       onClick={() =>
