@@ -52,7 +52,8 @@ const Navbar: React.FC = () => {
           variant="outlined"
           sx={{
             minWidth: 100,
-            mt: 1,
+            mt: 2,
+            mb:2,
             "& .MuiInputLabel-root": { color: "white" },
             "& .MuiOutlinedInput-root": {
               color: "white",

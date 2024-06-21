@@ -1,16 +1,16 @@
-// src/utils/api.ts
+import axios from "axios";
+import { CryptoCurrency } from "../types";
 
-import axios from 'axios';
-import { CryptoCurrency } from '../types';
-
-const API_URL = 'https://api.coincap.io/v2/assets';
+const API_URL = "https://api.coincap.io/v2/assets";
 
 export const fetchCryptocurrencies = async (): Promise<CryptoCurrency[]> => {
   const response = await axios.get(API_URL);
   return response.data.data;
 };
 
-export const fetchCryptocurrencyPrices = async (): Promise<Partial<CryptoCurrency>[]> => {
+export const fetchCryptocurrencyPrices = async (): Promise<
+  Partial<CryptoCurrency>[]
+> => {
   const response = await axios.get(API_URL);
   return response.data.data.map((crypto: CryptoCurrency) => ({
     id: crypto.id,
@@ -19,8 +19,9 @@ export const fetchCryptocurrencyPrices = async (): Promise<Partial<CryptoCurrenc
   }));
 };
 
-export const fetchCryptocurrencyDetails = async (id: string): Promise<CryptoCurrency> => {
+export const fetchCryptocurrencyDetails = async (
+  id: string
+): Promise<CryptoCurrency> => {
   const response = await axios.get(`${API_URL}/${id}`);
   return response.data.data;
 };
-

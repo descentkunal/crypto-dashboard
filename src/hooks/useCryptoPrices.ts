@@ -1,11 +1,12 @@
 // src/hooks/useCryptoPrices.ts
 
-import { useState, useEffect } from 'react';
-import { fetchCryptocurrencyPrices } from '../utils/api';
-import { CryptoCurrency } from '../types';
+import { useState, useEffect } from "react";
+import { fetchCryptocurrencyPrices } from "../utils/api";
+import { CryptoCurrency } from "../types";
 
 const useCryptoPrices = (initialPrices: Partial<CryptoCurrency>[]) => {
-  const [prices, setPrices] = useState<Partial<CryptoCurrency>[]>(initialPrices);
+  const [prices, setPrices] =
+    useState<Partial<CryptoCurrency>[]>(initialPrices);
 
   useEffect(() => {
     const fetchPrices = async () => {

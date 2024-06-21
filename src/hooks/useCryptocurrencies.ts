@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { fetchCryptocurrencies } from '../utils/api';
-import { CryptoCurrency } from '../types';
+import { useState, useEffect } from "react";
+import { fetchCryptocurrencies } from "../utils/api";
+import { CryptoCurrency } from "../types";
 
 const useCryptocurrencies = () => {
   const [cryptos, setCryptos] = useState<CryptoCurrency[]>([]);

@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { fetchCryptocurrencyDetails } from '../utils/api';
-import { CryptoCurrency } from '../types';
-import { Box, LinearProgress, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import './DetailsPage.scss';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { fetchCryptocurrencyDetails } from "../utils/api";
+import { CryptoCurrency } from "../types";
+import TableComponent from "../components/TableComponent";
 
 const DetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -29,36 +28,17 @@ const DetailsPage: React.FC = () => {
   }, [id]);
 
   return (
-    <Box className="details-page">
-      {loading && <LinearProgress />}
-      {crypto ? (
-        <>
-          <Typography className="details-page__header">{crypto.name}</Typography>
-          <TableContainer component={Paper} className="details-page__table-container">
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell className="details-page__table-cell--bold">Symbol</TableCell>
-                  <TableCell className="details-page__table-cell--bold">Name</TableCell>
-                  <TableCell className="details-page__table-cell--bold">Price</TableCell>
-                  <TableCell className="details-page__table-cell--bold">Market Cap</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell>{crypto.symbol}</TableCell>
-                  <TableCell>{crypto.name}</TableCell>
-                  <TableCell>{crypto.priceUsd}</TableCell>
-                  <TableCell>{crypto.marketCapUsd}</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </>
-      ) : (
-        !loading && <Typography variant="body1">No details available for this cryptocurrency.</Typography>
-      )}
-    </Box>
+    <TableComponent
+      cryptos={crypto ? [crypto] : []}
+      loading={loading}
+      order="asc"
+      orderBy="name"
+      currentPage={1}
+      itemsPerPage={1}
+      handlePageChange={() => {}}
+      showFavorites={false} // Set showFavorites to false
+      highlightOnHover={false} // Set highlightOnHover to false
+    />
   );
 };
 
