@@ -1,25 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { fetchCryptocurrencies } from '../utils/api';
-import { CryptoCurrency } from '../types';
-import useCryptoPrices from '../hooks/useCryptoPrices';
-import StarIcon from '@mui/icons-material/Star';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { fetchCryptocurrencies } from "../utils/api";
+import { CryptoCurrency } from "../types";
+import useCryptoPrices from "../hooks/useCryptoPrices";
+import StarIcon from "@mui/icons-material/Star";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 import {
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Paper, TableSortLabel, Pagination, Grid, Box
-} from '@mui/material';
-import { visuallyHidden } from '@mui/utils';
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  IconButton,
+  Paper,
+  TableSortLabel,
+  Pagination,
+  Grid,
+  Box,
+  LinearProgress,
+} from "@mui/material";
+import { visuallyHidden } from "@mui/utils";
+import "./TablePage.scss";
 
-type SortKey = 'symbol' | 'name' | 'priceUsd' | 'marketCapUsd';
-type Order = 'asc' | 'desc';
+type SortKey = "symbol" | "name" | "priceUsd" | "marketCapUsd";
+type Order = "asc" | "desc";
 
 const TablePage: React.FC = () => {
   const [cryptos, setCryptos] = useState<CryptoCurrency[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [order, setOrder] = useState<Order>('asc');
-  const [orderBy, setOrderBy] = useState<SortKey>('name');
+  const [order, setOrder] = useState<Order>("asc");
+  const [orderBy, setOrderBy] = useState<SortKey>("name");
   const [currentPage, setCurrentPage] = useState(1);
-  const [favorites, setFavorites] = useState<string[]>(JSON.parse(localStorage.getItem('favorites') || '[]'));
+  const [favorites, setFavorites] = useState<string[]>(
+    JSON.parse(localStorage.getItem("favorites") || "[]")
+  );
   const itemsPerPage = 10;
   const navigate = useNavigate();
 
@@ -34,116 +49,158 @@ const TablePage: React.FC = () => {
     fetchData();
   }, []);
 
-  const prices = useCryptoPrices(cryptos.map(crypto => ({
-    id: crypto.id,
-    priceUsd: crypto.priceUsd,
-    marketCapUsd: crypto.marketCapUsd,
-  })));
+  const prices = useCryptoPrices(
+    cryptos.map((crypto) => ({
+      id: crypto.id,
+      priceUsd: crypto.priceUsd,
+      marketCapUsd: crypto.marketCapUsd,
+    }))
+  );
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: SortKey) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+  const handleRequestSort = (
+    event: React.MouseEvent<unknown>,
+    property: SortKey
+  ) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
   const sortedCryptos = React.useMemo(() => {
-    return cryptos.map(crypto => {
-      const priceInfo = prices.find(p => p.id === crypto.id);
-      return {
-        ...crypto,
-        priceUsd: priceInfo?.priceUsd ?? crypto.priceUsd,
-        marketCapUsd: priceInfo?.marketCapUsd ?? crypto.marketCapUsd,
-      };
-    }).sort((a, b) => {
-      if (orderBy === 'priceUsd' || orderBy === 'marketCapUsd') {
-        return (parseFloat(a[orderBy]) < parseFloat(b[orderBy]) ? -1 : 1) * (order === 'asc' ? 1 : -1);
-      } else {
-        return (a[orderBy] < b[orderBy] ? -1 : 1) * (order === 'asc' ? 1 : -1);
-      }
-    });
+    return cryptos
+      .map((crypto) => {
+        const priceInfo = prices.find((p) => p.id === crypto.id);
+        return {
+          ...crypto,
+          priceUsd: priceInfo?.priceUsd ?? crypto.priceUsd,
+          marketCapUsd: priceInfo?.marketCapUsd ?? crypto.marketCapUsd,
+        };
+      })
+      .sort((a, b) => {
+        if (orderBy === "priceUsd" || orderBy === "marketCapUsd") {
+          return (
+            (parseFloat(a[orderBy]) < parseFloat(b[orderBy]) ? -1 : 1) *
+            (order === "asc" ? 1 : -1)
+          );
+        } else {
+          return (
+            (a[orderBy] < b[orderBy] ? -1 : 1) * (order === "asc" ? 1 : -1)
+          );
+        }
+      });
   }, [cryptos, prices, order, orderBy]);
 
-  const paginatedCryptos = sortedCryptos.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const paginatedCryptos = sortedCryptos.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
-  const handlePageChange = (event: React.ChangeEvent<unknown>, newPage: number) => {
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    newPage: number
+  ) => {
     setCurrentPage(newPage);
   };
 
   const toggleFavorite = (id: string) => {
-    const updatedFavorites = favorites.includes(id) ? favorites.filter(fav => fav !== id) : [...favorites, id];
+    const updatedFavorites = favorites.includes(id)
+      ? favorites.filter((fav) => fav !== id)
+      : [...favorites, id];
     setFavorites(updatedFavorites);
     setTimeout(() => {
-      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
     }, 0);
   };
 
   const isFavorite = (id: string) => favorites.includes(id);
 
-  if (loading) return <div>Loading...</div>;
-
   return (
-    <Box padding={2}>
-      <h1>Cryptocurrencies</h1>
+    <Box className="table-page">
+      <h1 className="table-page__header">
+        Today's Cryptocurrency Prices by Market Cap
+      </h1>
+      {loading && <LinearProgress />}
       <Grid container spacing={2} justifyContent="center">
         <Grid item xs={12}>
-          <TableContainer component={Paper} style={{ boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)' }}>
+          <TableContainer
+            component={Paper}
+            className="table-page__table-container"
+          >
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell padding="none" sx={{ fontWeight: 'bold', fontSize: '1rem' }} />
-                  <TableCell padding="none" sx={{ fontWeight: 'bold', fontSize: '1rem' }}>#</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', fontSize: '1rem' }}>
+                  <TableCell
+                    padding="none"
+                    className="table-page__table-cell--bold"
+                  />
+                  <TableCell
+                    padding="none"
+                    className="table-page__table-cell--bold"
+                  >
+                    #
+                  </TableCell>
+                  <TableCell className="table-page__table-cell--bold">
                     <TableSortLabel
-                      active={orderBy === 'symbol'}
-                      direction={orderBy === 'symbol' ? order : 'asc'}
-                      onClick={(event) => handleRequestSort(event, 'symbol')}
+                      active={orderBy === "symbol"}
+                      direction={orderBy === "symbol" ? order : "asc"}
+                      onClick={(event) => handleRequestSort(event, "symbol")}
                     >
                       Symbol
-                      {orderBy === 'symbol' ? (
+                      {orderBy === "symbol" ? (
                         <span style={visuallyHidden}>
-                          {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                          {order === "desc"
+                            ? "sorted descending"
+                            : "sorted ascending"}
                         </span>
                       ) : null}
                     </TableSortLabel>
                   </TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', fontSize: '1rem' }}>
+                  <TableCell className="table-page__table-cell--bold">
                     <TableSortLabel
-                      active={orderBy === 'name'}
-                      direction={orderBy === 'name' ? order : 'asc'}
-                      onClick={(event) => handleRequestSort(event, 'name')}
+                      active={orderBy === "name"}
+                      direction={orderBy === "name" ? order : "asc"}
+                      onClick={(event) => handleRequestSort(event, "name")}
                     >
                       Name
-                      {orderBy === 'name' ? (
+                      {orderBy === "name" ? (
                         <span style={visuallyHidden}>
-                          {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                          {order === "desc"
+                            ? "sorted descending"
+                            : "sorted ascending"}
                         </span>
                       ) : null}
                     </TableSortLabel>
                   </TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', fontSize: '1rem' }}>
+                  <TableCell className="table-page__table-cell--bold">
                     <TableSortLabel
-                      active={orderBy === 'priceUsd'}
-                      direction={orderBy === 'priceUsd' ? order : 'asc'}
-                      onClick={(event) => handleRequestSort(event, 'priceUsd')}
+                      active={orderBy === "priceUsd"}
+                      direction={orderBy === "priceUsd" ? order : "asc"}
+                      onClick={(event) => handleRequestSort(event, "priceUsd")}
                     >
                       Price
-                      {orderBy === 'priceUsd' ? (
+                      {orderBy === "priceUsd" ? (
                         <span style={visuallyHidden}>
-                          {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                          {order === "desc"
+                            ? "sorted descending"
+                            : "sorted ascending"}
                         </span>
                       ) : null}
                     </TableSortLabel>
                   </TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', fontSize: '1rem' }}>
+                  <TableCell className="table-page__table-cell--bold">
                     <TableSortLabel
-                      active={orderBy === 'marketCapUsd'}
-                      direction={orderBy === 'marketCapUsd' ? order : 'asc'}
-                      onClick={(event) => handleRequestSort(event, 'marketCapUsd')}
+                      active={orderBy === "marketCapUsd"}
+                      direction={orderBy === "marketCapUsd" ? order : "asc"}
+                      onClick={(event) =>
+                        handleRequestSort(event, "marketCapUsd")
+                      }
                     >
                       Market Cap
-                      {orderBy === 'marketCapUsd' ? (
+                      {orderBy === "marketCapUsd" ? (
                         <span style={visuallyHidden}>
-                          {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                          {order === "desc"
+                            ? "sorted descending"
+                            : "sorted ascending"}
                         </span>
                       ) : null}
                     </TableSortLabel>
@@ -154,31 +211,29 @@ const TablePage: React.FC = () => {
                 {paginatedCryptos.map((crypto, index) => (
                   <TableRow
                     key={crypto.id}
-                    sx={{
-                      '&:hover': {
-                        backgroundColor: 'rgba(0, 0, 0, 0.04)',
-                      },
-                    }}
+                    className="table-page__table-row--hover"
                   >
                     <TableCell padding="none">
-                      <IconButton onClick={() => toggleFavorite(crypto.id)} color="primary">
+                      <IconButton
+                        onClick={() => toggleFavorite(crypto.id)}
+                        color="primary"
+                      >
                         {isFavorite(crypto.id) ? (
-                          <StarIcon style={{ color: 'yellow' }} />
+                          <StarIcon style={{ color: "yellow" }} />
                         ) : (
-                          <StarBorderIcon style={{ color: 'grey' }} />
+                          <StarBorderIcon style={{ color: "grey" }} />
                         )}
                       </IconButton>
                     </TableCell>
-                    <TableCell padding="none">{(currentPage - 1) * itemsPerPage + index + 1}</TableCell>
+                    <TableCell padding="none">
+                      {(currentPage - 1) * itemsPerPage + index + 1}
+                    </TableCell>
                     <TableCell>{crypto.symbol}</TableCell>
-                    <TableCell 
-                      onClick={() => navigate(`/details/${crypto.id}`)}
-                      sx={{
-                        '&:hover': {
-                          color: 'lightgreen',
-                          cursor: 'pointer'
-                        },
-                      }}
+                    <TableCell
+                      onClick={() =>
+                        navigate(`/crypto-dashboard/details/${crypto.id}`)
+                      }
+                      className="table-page__table-cell--hoverable"
                     >
                       {crypto.name}
                     </TableCell>

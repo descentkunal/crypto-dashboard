@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchCryptocurrencyDetails } from '../utils/api';
 import { CryptoCurrency } from '../types';
+import { Box, LinearProgress, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import './DetailsPage.scss';
 
 const DetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -26,21 +28,37 @@ const DetailsPage: React.FC = () => {
     fetchData();
   }, [id]);
 
-  if (loading) return <div>Loading...</div>;
-
   return (
-    <div>
+    <Box className="details-page">
+      {loading && <LinearProgress />}
       {crypto ? (
         <>
-          <h1>{crypto.name}</h1>
-          <p>Symbol: {crypto.symbol}</p>
-          <p>Price: {crypto.priceUsd}</p>
-          <p>Market Cap: {crypto.marketCapUsd}</p>
+          <Typography className="details-page__header">{crypto.name}</Typography>
+          <TableContainer component={Paper} className="details-page__table-container">
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell className="details-page__table-cell--bold">Symbol</TableCell>
+                  <TableCell className="details-page__table-cell--bold">Name</TableCell>
+                  <TableCell className="details-page__table-cell--bold">Price</TableCell>
+                  <TableCell className="details-page__table-cell--bold">Market Cap</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell>{crypto.symbol}</TableCell>
+                  <TableCell>{crypto.name}</TableCell>
+                  <TableCell>{crypto.priceUsd}</TableCell>
+                  <TableCell>{crypto.marketCapUsd}</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
         </>
       ) : (
-        <p>No details available for this cryptocurrency.</p>
+        !loading && <Typography variant="body1">No details available for this cryptocurrency.</Typography>
       )}
-    </div>
+    </Box>
   );
 };
 

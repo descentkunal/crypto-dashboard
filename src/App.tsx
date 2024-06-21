@@ -1,22 +1,19 @@
-import React from 'react';
-import { Outlet, RouterProvider } from 'react-router-dom';
-import { createBrowserRouter } from 'react-router-dom';
-import TablePage from './pages/TablePage';
-import CryptoDetail from './pages/DetailsPage';
-import Navbar from './components/Navbar'; 
-import Error from './components/Error';
-
+import React from "react";
+import { Outlet, RouterProvider } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
+import TablePage from "./pages/TablePage";
+import CryptoDetail from "./pages/DetailsPage";
+import Navbar from "./components/Navbar";
+import Error from "./components/Error";
 
 const AppLayout = () => {
   return (
     <>
       <Navbar />
-      <Outlet/>
+      <Outlet />
     </>
   );
-}
-
-
+};
 
 const router = createBrowserRouter([
   {
@@ -31,19 +28,16 @@ const router = createBrowserRouter([
         path: "/crypto-dashboard/details/:id",
         element: <CryptoDetail />,
       },
-
     ],
     errorElement: <Error />,
-  }
+  },
 ]);
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <header className="App-header">
-
-      </header>
-        <RouterProvider router={router} />
+      <header className="App-header"></header>
+      <RouterProvider router={router} />
     </div>
   );
 };

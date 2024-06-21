@@ -1,0 +1,30 @@
+.table-page {
+  padding: 2rem;
+
+  &__header {
+    font-weight: bold;
+    font-size: 1rem;
+  }
+
+  &__table-container {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  &__table-cell--bold {
+    font-weight: bold;
+    font-size: 1rem;
+  }
+
+  &__table-cell--hoverable {
+    &:hover {
+      color: lightgreen;
+      cursor: pointer;
+    }
+  }
+
+  &__table-row--hover {
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+  }
+}
