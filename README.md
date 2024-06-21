@@ -164,6 +164,15 @@ Added a header with navigation controls for navigation like home and back.
 Added a select component for current active currency.
 Added a loading state when api is loading.
 Added a custom error page when wrong routing is received. 
+The application is delpoyed and is live on https://descentkunal.github.io/crypto-dashboard/
+
+GITHUB
+Repository: https://github.com/descentkunal/crypto-dashboard
+Live Link : https://descentkunal.github.io/crypto-dashboard/
+
+GIT Branches
+master: The main brnach 
+gh-pages: same as master deployed on github pages
 
 Conclusion
 
